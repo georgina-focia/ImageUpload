@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 {
     RecyclerView recyclerView;
     ItemAdapter adapter;
-    List<Item> itemList;
+    List<Item> checklist;
 
     // override - when the activity starts, run the code to set up the screen
     @Override
@@ -44,24 +44,24 @@ public class MainActivity extends AppCompatActivity
         // text view goes here
 
         // recycler view
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerViewChecklist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // dynamic list of items with assigned text fields
-        itemList = new ArrayList<>();
-        itemList.add(new Item("Headset", R.mipmap.ic_launcher));
-        itemList.add(new Item("Push to talk dongle", R.mipmap.ic_launcher));
-        itemList.add(new Item("TAK server running", R.mipmap.ic_launcher));
-        itemList.add(new Item("Headset", R.mipmap.ic_launcher));
-        itemList.add(new Item("USB-C adapter", R.mipmap.ic_launcher));
-        itemList.add(new Item("Bump helmet", R.mipmap.ic_launcher));
-        itemList.add(new Item("Ice Cream", R.mipmap.ic_launcher));
-        itemList.add(new Item("Morty", R.mipmap.ic_launcher));
-        itemList.add(new Item("Morty joystick", R.mipmap.ic_launcher));
-        itemList.add(new Item("Orb", R.mipmap.ic_launcher));
+        checklist = new ArrayList<>();
+        checklist.add(new Item("Headset", false));
+        checklist.add(new Item("Push to talk dongle", false));
+        checklist.add(new Item("TAK server running", false));
+        checklist.add(new Item("Headset", false));
+        checklist.add(new Item("USB-C adapter", false));
+        checklist.add(new Item("Bump helmet", false));
+        checklist.add(new Item("Ice Cream", false));
+        checklist.add(new Item("Morty", false));
+        checklist.add(new Item("Morty joystick", false));
+        checklist.add(new Item("Orb", false));
 
         // adapter being set to recycler view
-        adapter = new ItemAdapter(this, itemList);
+        adapter = new ItemAdapter(checklist);
         recyclerView.setAdapter(adapter);
     }
 }
