@@ -22,6 +22,8 @@ import android.widget.Toast;
 // 4. users picks an image
 // 5. image shows up on screen
 
+
+
 public class MainActivity extends AppCompatActivity
 {
     RecyclerView recyclerView;
@@ -49,8 +51,10 @@ public class MainActivity extends AppCompatActivity
 
         // dynamic list of items with assigned text fields
         checklist = new ArrayList<>();
+
+
         checklist.add(new Item("Headset", false));
-        checklist.add(new Item("Push to talk dongle", false));
+        checklist.add(new Item("Push to talk dongle (PTT)", false));
         checklist.add(new Item("TAK server running", false));
         checklist.add(new Item("USB-C adapter", false));
         checklist.add(new Item("Bump helmet", false));

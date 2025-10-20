@@ -1,12 +1,14 @@
 package com.example.imageupload.ui;
 
-
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -32,12 +34,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
+    // give the user the ability to add/remove something from the list (put + and - icons in header)
+    // when checkbox is selected, give user the option to delete
+    // always give the user the ability to add new item
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         Item item = checklist.get(position);
         holder.textView.setText(item.getText());
         holder.checkBox.setChecked(item.isChecked());
+
 
         // listener
         holder.checkBox.setOnCheckedChangeListener(null);
@@ -69,11 +75,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     {
         CheckBox checkBox;
         TextView textView;
+        Button removeButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             checkBox = itemView.findViewById((R.id.checkBox));
             textView = itemView.findViewById(R.id.item_text);
+            removeButton = itemView.findViewById((R.id.removeButton));
         }
     }
 }

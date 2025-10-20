@@ -6,9 +6,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <!-- shows the selected image -->
+    <!-- NOTES -->
     <!-- match_parent - make this view as big as the parent allows  -->
-
     <!-- contentDescription is not visible text- accessibility feature, (i.e, screen readers) -->
     <!-- access any .txt file and implement scroll bar -->
     <!-- android:scaleType in ImageView -->

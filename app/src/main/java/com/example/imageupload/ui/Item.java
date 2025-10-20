@@ -5,6 +5,7 @@ public class Item {
     private String text;
     private boolean isChecked;
 
+
     public Item(String text, boolean isChecked)
     {
         this.text = text;

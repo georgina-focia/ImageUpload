@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:padding="12dp"
     android:clickable="true"
+    android:focusable="true"
     android:background="#FF000000">
 
     <!-- checkbox -->
@@ -19,12 +20,20 @@
         android:id="@+id/item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PCC CHECKLIST"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textColor="#FFFFFFFF"
         android:gravity="center_vertical"
         android:background="@drawable/text_pressed_background"
         android:clickable="true"
         android:focusable="true" />
+
+    <!-- add button -->
+    <Button
+        android:id="@+id/removeButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true" />
+
 
 </LinearLayout>
