@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("io.objectbox")
 }
 
 android {
@@ -47,5 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("io.objectbox:objectbox-android:5.0.1")
+    annotationProcessor("io.objectbox:objectbox-processor:5.0.1")
 
 }
