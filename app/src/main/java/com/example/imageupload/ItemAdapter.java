@@ -27,7 +27,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private final Context context;
     
     // Spinner options
-    private final String[] priorities = {"In-Progess", "Completed", "Blocked"};
+    private final String[] priorities = {"In-Progress", "Completed", "Blocked"};
 
 
     public ItemAdapter(Context context, List<Item> items)

@@ -17,8 +17,8 @@ public class ItemRepo {
 
     // push / insert item
     // prevent duplicates
-    public void addItem(Item item) {
-        itemBox.put(item);
+    public long addItem(Item item) {
+        return itemBox.put(item);
     }
 
     // pull / get all items
@@ -41,5 +41,5 @@ public class ItemRepo {
         itemBox.removeAll();
     }
 
-    // RESET ALL ITEMS
+    // UPDATE ALL ITEMS
 }
