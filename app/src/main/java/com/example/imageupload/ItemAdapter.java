@@ -1,8 +1,10 @@
 package com.example.imageupload;
 
 import android.content.Context;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.text.TextWatcher;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,12 +30,11 @@ import io.objectbox.Box;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     private List<Item> items;
-    private ItemRepo itemRepo;
     private final Context context;
+
     
     // Spinner options
     private final String[] priorities = {"In-Progress", "Completed", "Blocked"};
-
 
     public ItemAdapter(Context context, List<Item> items)
     {
@@ -44,6 +46,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         EditText editText;
         CheckBox checkBox;
         Spinner priority_spinner;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -77,8 +80,30 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             item.setChecked(isChecked);
         });
 
-        // CREATE AN EDIT TEXT ADAPTER
 
+        // CREATE AN EDIT TEXT ADAPTER
+        // textWatcher is for watching any changes in editText
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // this function is called before text is edited
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // this function is called after text is edited
+            }
+        };
+
+        holder.editText.addTextChangedListener(textWatcher);
+        // // set the TextChange Listener for
+        //        // the edit text field
+        //
         // make entire item clickable
 //        holder.editText.setOnClickListener(v -> {
 //            // toggle the checkbox

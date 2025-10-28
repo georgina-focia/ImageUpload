@@ -7,6 +7,9 @@ import com.example.imageupload.repository.ItemRepo;
 import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity
 {
     RecyclerView recyclerView;
     private ItemRepo itemRepo;
+
 
     // override - when the activity starts, run the code to set up the screen
     @Override
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         // refresh list button logic
         Button refreshButton = findViewById(R.id.action_refresh);
         refreshButton.setOnClickListener(v -> {
-            itemRepo.clearAll();
+            itemRepo.getAllItems();
             Toast.makeText(this, "List synced", Toast.LENGTH_SHORT).show();
         });
 
