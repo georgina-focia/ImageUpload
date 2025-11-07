@@ -15,10 +15,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
-
 import com.example.imageupload.model.Item;
-
 import io.objectbox.BoxStore;
+
 
 public class MainActivity extends AppCompatActivity
 {
@@ -110,7 +109,18 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "Item Added!", Toast.LENGTH_SHORT).show();
         });
 
+        // GEORGINA: adding a button that goes to the Calendar view (button created in activity_main.xml)
+        Button secondActivityButton = findViewById(R.id.button_to_go_to_second_activity);
+        secondActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // sanity check
         Log.d("PCC", "Loaded " + items.size() + " items from DB");
-    }
+
+    } // GEORGINA: end of OnCreate
 }

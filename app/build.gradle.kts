@@ -5,12 +5,14 @@ plugins {
 
 android {
     namespace = "com.example.imageupload"
-    compileSdk = 34
+    // GEORGINA: had to change this to 36 because of the same newer dependencies
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.imageupload"
         minSdk = 24
-        targetSdk = 34
+        //GEORGINA: had to change this to 36 because of the same newer dependencies
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -45,6 +47,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation(libs.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

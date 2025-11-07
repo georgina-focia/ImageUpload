@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -15,18 +14,19 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".SecondActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:screenOrientation="sensorLandscape"
             android:exported="true"
-            android:label="PCC">
+            android:label="PCC"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
 
 </manifest>
-<!-- Android reads the manifest before the app runs -->
-<!-- The manifest tells the Android system about your app — what it contains, what it can do, and what permissions it needs -->
-    <!-- LABEL sets the name of the app -->
