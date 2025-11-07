@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.imageupload.repository.ItemRepo;
 import android.os.Bundle;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +18,26 @@ import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import com.example.imageupload.model.Item;
 import io.objectbox.BoxStore;
-
+import android.content.Intent; // GEORGINA: added to have an Intent object that goes to another view
 
 public class MainActivity extends AppCompatActivity
 {
     RecyclerView recyclerView;
     private ItemRepo itemRepo;
+
+    //GEORGINA: adding a helper method to convert passed in dates to milliseconds from a user
+    // readable date to eventually make adding to a Calendar easier
+    public static Long dueDate(int year, int month, int day){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month -1);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis();
+    }
+
 
     // override - when the activity starts, run the code to set up the screen
     @Override
@@ -35,16 +50,17 @@ public class MainActivity extends AppCompatActivity
         itemRepo = new ItemRepo();
         // only add starter items if database == empty
         if (itemRepo.getAllItems().isEmpty()) {
-            itemRepo.addItem(new Item("Headset", false, 0));
-            itemRepo.addItem(new Item("PTT", false, 0));
-            itemRepo.addItem(new Item("TAK server running", false, 0));
-            itemRepo.addItem(new Item("USB-C adapter", false, 0));
-            itemRepo.addItem(new Item("Bump helmet", false, 0));
-            itemRepo.addItem(new Item("Ice Cream", false, 0));
-            itemRepo.addItem(new Item("Morty", false, 0));
-            itemRepo.addItem(new Item("Morty Joystick", false, 0));
-            itemRepo.addItem(new Item("Orb", false, 0));
-            itemRepo.addItem(new Item("ASN", false, 0));
+            // GEORGINA: adding a due date field to the existing objects 
+            itemRepo.addItem(new Item("Headset", false, 0, dueDate(2025, 11, 20)));
+            itemRepo.addItem(new Item("PTT", false, 0, dueDate(2025, 11, 21)));
+            itemRepo.addItem(new Item("TAK server running", false, 0, dueDate(2025, 11, 21)));
+            itemRepo.addItem(new Item("USB-C adapter", false, 0, dueDate(2025, 11, 21)));
+            itemRepo.addItem(new Item("Bump helmet", false, 0, dueDate(2025, 11, 22)));
+            itemRepo.addItem(new Item("Ice Cream", false, 0, dueDate(2025, 11, 22)));
+            itemRepo.addItem(new Item("Morty", false, 0, dueDate(2025, 11, 22)));
+            itemRepo.addItem(new Item("Morty Joystick", false, 0, dueDate(2025, 11, 23)));
+            itemRepo.addItem(new Item("Orb", false, 0, dueDate(2025, 11, 25)));
+            itemRepo.addItem(new Item("ASN", false, 0, dueDate(2025, 11, 25)));
         }
 
         // now safely load them
@@ -111,16 +127,21 @@ public class MainActivity extends AppCompatActivity
 
         // GEORGINA: adding a button that goes to the Calendar view (button created in activity_main.xml)
         Button secondActivityButton = findViewById(R.id.button_to_go_to_second_activity);
-        secondActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                startActivity(intent);
-            }
+        secondActivityButton.setOnClickListener( v -> {
+            Toast.makeText(this, "Calendar tapped", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            startActivity(intent);
         });
 
         // sanity check
         Log.d("PCC", "Loaded " + items.size() + " items from DB");
 
     } // GEORGINA: end of OnCreate
+
+    //GEORGINA: trying something new trying to get the calendar button to actually work
+    public void onCalendarClick(android.view.View v){
+        Log.d("CAL", "Calendar button tapped");
+        android.widget.Toast.makeText(this, "Calendar tapped", android.widget.Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SecondActivity.class));
+    }
 }

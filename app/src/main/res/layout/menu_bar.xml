@@ -55,4 +55,16 @@
         android:clickable="true"
         android:focusable="true" />
 
+    <!-- GEORGINA: calendar button -->
+    <Button
+        android:id="@+id/button_to_go_to_second_activity"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/baseline_calendar_month_24"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@android:color/black"
+        android:onClick="onCalendarClick"
+        />
+
 </LinearLayout>
