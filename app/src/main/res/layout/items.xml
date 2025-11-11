@@ -40,4 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <!-- GEORGINA: adding an item due date -->
+    <TextView
+        android:id="@+id/item_due_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11/20/2025"
+        android:textColor="#FF000000"
+        />
+
+
 </LinearLayout>

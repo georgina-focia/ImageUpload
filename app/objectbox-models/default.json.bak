@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:1895838788566190752",
-      "lastPropertyId": "5:1643513083700239821",
+      "lastPropertyId": "4:4337103693919411158",
       "name": "Item",
       "properties": [
         {
@@ -28,11 +28,6 @@
           "id": "4:4337103693919411158",
           "name": "priority",
           "type": 5
-        },
-        {
-          "id": "5:1643513083700239821",
-          "name": "dueAt",
-          "type": 6
         }
       ],
       "relations": []

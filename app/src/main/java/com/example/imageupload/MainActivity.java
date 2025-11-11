@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         itemRepo = new ItemRepo();
         // only add starter items if database == empty
         if (itemRepo.getAllItems().isEmpty()) {
-            // GEORGINA: adding a due date field to the existing objects 
+            // GEORGINA: adding a due date field to the existing objects
             itemRepo.addItem(new Item("Headset", false, 0, dueDate(2025, 11, 20)));
             itemRepo.addItem(new Item("PTT", false, 0, dueDate(2025, 11, 21)));
             itemRepo.addItem(new Item("TAK server running", false, 0, dueDate(2025, 11, 21)));
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
             itemRepo.addItem(new Item("Morty Joystick", false, 0, dueDate(2025, 11, 23)));
             itemRepo.addItem(new Item("Orb", false, 0, dueDate(2025, 11, 25)));
             itemRepo.addItem(new Item("ASN", false, 0, dueDate(2025, 11, 25)));
+            itemRepo.addItem(new Item("cat", false, 0, dueDate(2025, 11, 25)));
         }
 
         // now safely load them

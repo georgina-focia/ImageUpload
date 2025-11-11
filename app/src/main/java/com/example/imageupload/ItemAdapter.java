@@ -2,6 +2,7 @@ package com.example.imageupload;
 
 import android.content.Context;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.TextView; // GEORGINA: added for dueDate
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.imageupload.model.Item;
 import com.example.imageupload.repository.ItemRepo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.objectbox.Box;
 
@@ -46,12 +51,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         EditText editText;
         CheckBox checkBox;
         Spinner priority_spinner;
+        //GEORGINA: adding a field for dueDate
+        TextView itemDueDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
             editText = itemView.findViewById(R.id.editText);
             checkBox = itemView.findViewById(R.id.checkBox);
             priority_spinner = itemView.findViewById(R.id.priority_spinner);
+            // GEORGINA: getting the due date from the id that I defined in items.xml
+            itemDueDate = itemView.findViewById(R.id.item_due_date);
         }
     }
 
@@ -105,8 +114,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             boolean newState = !item.isChecked();
             item.setChecked(newState);
             holder.checkBox.setChecked(newState);
+            // GEORGINA: added this, not sure if it works?
+            //item.setDueAt(item.getDueAt());
             itemRepo.put(item);
         });
+
+        // GEORGINA: dueDate logic
+        long DueDateMillis = item.getDueAt();
+        // GEORGINA: add a helper method to get the due date in human readable format instead?
+        String humanReadableDate = formatDateFromMillis(DueDateMillis);
+        Log.d("DueDateDebug", "Position: " + position + ", formatted date: " + humanReadableDate);
+        holder.itemDueDate.setText(humanReadableDate); // THIS LINE SHOULD DISPLAY THE TEXT
+
         // spinner logic
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
             context,
@@ -136,5 +155,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public int getItemCount()
     {
         return items.size();
+    }
+
+    //GEORGINA: helper method to display milliseconds date in human readable format
+    private String formatDateFromMillis(long milliseconds) {
+        if (milliseconds <= 0) {
+            return "No date set"; // Return a meaningful default string
+        }
+        // Format the date as dd/MM/yyyy (e.g., 20/11/2025)
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date date = new Date(milliseconds);
+        return sdf.format(date);
     }
 }
