@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "Item Added!", Toast.LENGTH_SHORT).show();
         });
 
-        // GEORGINA: adding a button that goes to the Calendar view (button created in activity_main.xml)
+        // GEORGINA: adding a button that goes to the Calendar view
         Button secondActivityButton = findViewById(R.id.button_to_go_to_second_activity);
         secondActivityButton.setOnClickListener( v -> {
             Toast.makeText(this, "Calendar tapped", Toast.LENGTH_SHORT).show();

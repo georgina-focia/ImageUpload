@@ -5,7 +5,8 @@
     android:orientation="horizontal"
     android:gravity="end"
     android:padding = "8dp"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:paddingEnd="50dp">
 
     <!-- close button -->
     <Button
@@ -19,16 +20,18 @@
     <!-- title -->
     <TextView
         android:id="@+id/mainTitle"
-        android:layout_width="0dp"
+        android:layout_width="117dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center"
         android:text="PCC"
-        android:textStyle="bold"
         android:textColor="@android:color/black"
         android:textSize="25sp"
-        android:gravity="center" />
+        android:textStyle="bold" />
 
     <!-- save button -->
+
+    <!-- delete button -->
     <Button
         android:id="@+id/action_save"
         android:layout_width="40dp"
@@ -37,7 +40,6 @@
         android:clickable="true"
         android:focusable="true" />
 
-    <!-- delete button -->
     <Button
         android:id="@+id/action_delete"
         android:layout_width="40dp"

@@ -1,5 +1,6 @@
 package com.example.imageupload;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.example.imageupload.model.Item;
 import com.example.imageupload.repository.ItemRepo;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +47,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     {
         this.context = context;
         this.items = items;
+        // GEORGINA: modified because itemrepo being null was causing an error
+        this.itemRepo = MyApp.getBoxStore().boxFor(Item.class);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -120,11 +124,64 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         });
 
         // GEORGINA: dueDate logic
-        long DueDateMillis = item.getDueAt();
-        // GEORGINA: add a helper method to get the due date in human readable format instead?
-        String humanReadableDate = formatDateFromMillis(DueDateMillis);
+        Long dueAtObj = item.getDueAt();   // this may be null
+        long dueAtMillis = (dueAtObj == null) ? 0 : dueAtObj;
+
+        String humanReadableDate;
+
+        if (dueAtMillis == 0) {
+            humanReadableDate = "No due date";
+        } else {
+            humanReadableDate = formatDateFromMillis(dueAtMillis);
+        }
+
+        //holder.itemDueDate.setText(humanReadableDate);
+
+
+        // GEORINGA: debugging
         Log.d("DueDateDebug", "Position: " + position + ", formatted date: " + humanReadableDate);
         holder.itemDueDate.setText(humanReadableDate); // THIS LINE SHOULD DISPLAY THE TEXT
+
+        // GEORGINA: adding logic to be able to select a due date after you add an item on UI
+        holder.itemDueDate.setOnClickListener(v -> {
+
+            // open a date picker
+            final Calendar calendar = Calendar.getInstance();
+
+            // If item has a stored date, start picker at that date
+            if (item.getDueAt() != null && item.getDueAt() > 0) {
+                calendar.setTimeInMillis(item.getDueAt());
+            }
+
+            // Create the dialog
+            DatePickerDialog dialog = new DatePickerDialog(
+                    holder.itemView.getContext(),
+                    (view, year, month, dayOfMonth) -> {
+
+                        // convert picked date to millis
+                        Calendar chosen = Calendar.getInstance();
+                        chosen.set(year, month, dayOfMonth, 0, 0, 0);
+
+                        long newDueAt = chosen.getTimeInMillis();
+
+                        // save to objectbox
+                        item.setDueAt(newDueAt);
+                        itemRepo.put(item);
+
+                        // update UI
+                        holder.itemDueDate.setText(formatDateFromMillis(newDueAt));
+                        notifyItemChanged(position);
+
+                        Toast.makeText(context, "Due date updated!", Toast.LENGTH_SHORT).show();
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+
+            dialog.show();
+        });
+
 
         // spinner logic
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(

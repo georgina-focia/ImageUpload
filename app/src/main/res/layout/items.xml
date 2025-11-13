@@ -7,7 +7,8 @@
     android:padding="12dp"
     android:clickable="true"
     android:focusable="true"
-    android:background="#D3D3D3">
+    android:background="#D3D3D3"
+    android:paddingEnd="60dp">
 
 
     <!-- checkbox -->
@@ -42,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <!-- GEORGINA: adding an item due date -->
+    <!-- GEORGINA: adding an item due date to the front end display -->
     <TextView
         android:id="@+id/item_due_date"
         android:layout_width="wrap_content"
