@@ -13,6 +13,7 @@ import com.example.imageupload.repository.ItemRepo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
 import android.view.View;
@@ -97,11 +98,35 @@ public class SecondActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
 
+        // generating a string summary of what tasks need to be done today
+        String summary = generateSummary(filteredItems);
+        aiSummaryText.setText(summary);
+
+
         if (filteredItems.isEmpty()) {
             Toast.makeText(this, "No tasks due on this date", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // a method that generates a string summary of what tasks need to be done on a given day 
+    // a method that generates a string summary of what tasks need to be done on a given day
+    // eventually will integrate an LLM to do this
+    private String generateSummary(List<Item> items) {
+        if (items.isEmpty()) {
+            return "You have no tasks due today.";
+        }
+
+        StringBuilder summary = new StringBuilder();
+        summary.append("Good morning! Today your priorities are:\n");
+
+        // Sort tasks by priority (0 = highest)
+        items.sort(Comparator.comparingInt(Item::getPriority));
+
+        for (Item item : items) {
+            summary.append("• ").append(item.getText()).append("\n");
+        }
+
+        return summary.toString();
+    }
+
 
 }
