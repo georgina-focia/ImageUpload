@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.imageupload.model.Item;
 import com.example.imageupload.repository.ItemRepo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -18,6 +19,12 @@ import java.util.List;
 
 import android.view.View;
 import android.widget.Button;
+
+import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -99,8 +106,9 @@ public class SecondActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         // generating a string summary of what tasks need to be done today
-        String summary = generateSummary(filteredItems);
-        aiSummaryText.setText(summary);
+        //String summary = generateSummary(filteredItems);
+        //aiSummaryText.setText(summary);
+        fetchAISummary(filteredItems);
 
 
         if (filteredItems.isEmpty()) {
@@ -127,6 +135,68 @@ public class SecondActivity extends AppCompatActivity {
 
         return summary.toString();
     }
+
+    // a method that allows AndroidStudio to communicate with my local Flask server to generate
+    // an AI summary of tasks to complete on a given day
+    private void fetchAISummary(List<Item> items) {
+        // extract task names from the passed in Item objects
+        List<String> taskStrings = new ArrayList<>();
+        for (Item item : items) {
+            taskStrings.add(item.getText());
+        }
+
+        // building JSON body for Flask with tasks due on a given day
+        String json = "{\"tasks\": [";
+        for (int i = 0; i < taskStrings.size(); i++) {
+            json += "\"" + taskStrings.get(i).replace("\"", "\\\"") + "\"";
+            if (i < taskStrings.size() - 1) json += ",";
+        }
+        json += "]}";
+
+        // HTTP engine that sends network requests
+        OkHttpClient client = new OkHttpClient();
+
+        // creates the POST request body -- sends the JSON string
+        RequestBody body = RequestBody.create(
+                json,
+                okhttp3.MediaType.parse("application/json; charset=utf-8")
+        );
+
+        // builds the HTTP request
+        // this uses my local IP address that pops up when I run the Flask server on my machine
+        Request request = new Request.Builder()
+                .url("http://192.168.1.71:5000/summary")
+                .post(body)
+                .build();
+
+        // async network call, this sends the request
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                runOnUiThread(() -> aiSummaryText.setText("Error contacting AI server."));
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+
+                    try {
+                        JSONObject obj = new JSONObject(responseBody);
+                        String summary = obj.getString("summary");
+
+                        runOnUiThread(() -> aiSummaryText.setText(summary));
+
+                    } catch (Exception ex) {
+                        runOnUiThread(() -> aiSummaryText.setText("Invalid AI response."));
+                    }
+                } else {
+                    runOnUiThread(() -> aiSummaryText.setText("AI server error."));
+                }
+            }
+        });
+    }
+
 
 
 }
